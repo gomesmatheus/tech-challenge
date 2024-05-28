@@ -19,6 +19,14 @@ func main() {
     clienteService := service.NewClienteService(postgresDb)
     clienteHandler := handlers.NewClienteHandler(clienteService)
 
+    produtoService := service.NewProdutoService(postgresDb)
+    produtoHandler := handlers.NewProdutoHandler(produtoService)
+
+
     http.HandleFunc("/cliente", clienteHandler.CriacaoRoute)
+    http.HandleFunc("/cliente/", clienteHandler.IdentificacaoRoute)
+    http.HandleFunc("/produto", produtoHandler.CriacaoProdutoRoute)
+    http.HandleFunc("/produto/", produtoHandler.RecuperarProdutosRoute)
+    
     log.Fatal(http.ListenAndServe(":3333", nil))
 }

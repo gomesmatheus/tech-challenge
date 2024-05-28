@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/gomesmatheus/tech-challenge/internal/core/domain"
 	"github.com/gomesmatheus/tech-challenge/internal/core/ports"
@@ -51,25 +53,25 @@ func (c *ClienteHandler) CriacaoRoute(w http.ResponseWriter, r *http.Request) {
     return
 }
 
-// func (c *ClienteHandler) IdentificacaoRoute(w http.ResponseWriter, r *http.Request) {
-//     if r.Method == "GET" {
+func (c *ClienteHandler) IdentificacaoRoute(w http.ResponseWriter, r *http.Request) {
+    if r.Method == "GET" {
+        cpf, err := strconv.ParseInt(strings.Split(r.URL.Path, "/")[2], 10, 64)
+        if err != nil {
+            fmt.Println(err)
+        }
 
-//         var cliente domain.Cliente
-//         json.Unmarshal(body, &cliente)
-//         fmt.Println(cliente)
+        cliente, err := c.clienteService.Identificar(cpf)
+        if err != nil {
+            w.WriteHeader(404)
+            w.Write([]byte(fmt.Sprintf("Cliente com CPF %d não identificado", cpf)))
+            return
+        }
+        response, _ := json.Marshal(cliente)
+        w.Header().Set("Content-Type", "application/json")
+        w.WriteHeader(200)
+        w.Write(response)
+    }
 
-//         cliente, err = c.clienteService.Cadastrar(cliente)
-//         if err != nil {
-//             fmt.Println("Erro ao cadastrar o cliente", err)
-//             w.WriteHeader(500)
-//             w.Write([]byte("Erro ao cadastrar o cliente"))
-//             return
-//         }
-        
-//         w.WriteHeader(201)
-//         w.Write([]byte("Cliente inserido"))
-//     }
-
-//     return
-// }
+    return
+}
 
