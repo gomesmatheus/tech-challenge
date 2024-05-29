@@ -34,7 +34,7 @@ const(
         CONSTRAINT fk_categoria_id FOREIGN KEY(categoria_id) REFERENCES categoria_produtos(id)
     );
 
-    CREATE TABLE IF NOT EXISTS pedido (
+    CREATE TABLE IF NOT EXISTS pedidos (
         id SERIAL PRIMARY KEY,
         cliente_cpf BIGINT,
         status VARCHAR(255),
@@ -52,7 +52,7 @@ const(
 
         PRIMARY KEY (produto_id, pedido_id),
         CONSTRAINT fk_produto FOREIGN KEY (produto_id) REFERENCES produtos(id),
-        CONSTRAINT fk_pedido FOREIGN KEY (pedido_id) REFERENCES pedido(id)
+        CONSTRAINT fk_pedido FOREIGN KEY (pedido_id) REFERENCES pedidos(id)
     );
     `
 )

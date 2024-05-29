@@ -22,11 +22,17 @@ func main() {
     produtoService := service.NewProdutoService(postgresDb)
     produtoHandler := handlers.NewProdutoHandler(produtoService)
 
+    pedidoService := service.NewPedidoService(postgresDb)
+    pedidoHandler := handlers.NewPedidoHandler(pedidoService)
+
 
     http.HandleFunc("/cliente", clienteHandler.CriacaoRoute)
     http.HandleFunc("/cliente/", clienteHandler.IdentificacaoRoute)
     http.HandleFunc("/produto", produtoHandler.CriacaoProdutoRoute)
     http.HandleFunc("/produto/", produtoHandler.RecuperarProdutosRoute)
+    http.HandleFunc("/pedido", pedidoHandler.CriacaoPedidoRoute)
+    http.HandleFunc("/pedido/atualizar", pedidoHandler.AtualizarPedidoRoute)
+    
     
     log.Fatal(http.ListenAndServe(":3333", nil))
 }
