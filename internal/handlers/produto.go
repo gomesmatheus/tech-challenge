@@ -85,7 +85,22 @@ func (c *ProdutoHandler) RecuperarProdutosRoute(w http.ResponseWriter, r *http.R
 
         var produto domain.Produto
         json.Unmarshal(body, &produto)
-        c.produtoService.AtualizarProduto(int(id), produto)
+        err = c.produtoService.AtualizarProduto(int(id), produto)
+        if err != nil {
+            fmt.Println("Erro ao atualizar produto")
+            w.WriteHeader(500)
+            w.Write([]byte("500 Erro ao atualizar produto"))
+            return
+        }
+
+    } else if r.Method == "DELETE" {
+        err := c.produtoService.DeletarProduto(int(id)) 
+        if err != nil {
+            fmt.Println("Erro ao deletar produto")
+            w.WriteHeader(500)
+            w.Write([]byte("500 Erro ao deletar produto"))
+            return
+        }
     }
 
     return

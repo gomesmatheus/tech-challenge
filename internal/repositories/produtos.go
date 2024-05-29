@@ -43,18 +43,17 @@ func (repo *postgresDb) RecuperarProdutos(categoriaId int) ([]domain.Produto, er
 func (repo *postgresDb) AtualizarProduto(id int, p domain.Produto) (error) {
     _, err := repo.db.Exec(context.Background(), "UPDATE produtos set categoria_id = $1, nome = $2, descricao = $3, preco = $4, tempo_de_preparo_minutos = $5 WHERE id = $6", p.CategoriaId, p.Nome, p.Descricao, p.Preco, p.TempoDePreparo, id)
     if err != nil {
-        fmt.Println("Erro ao inserir produto na base de dados", err)
+        fmt.Println("Erro ao atualizar produto na base de dados", err)
     }
     return err
 }
 
 
 func (repo *postgresDb) DeletarProduto(id int) (error) {
-    _, err := repo.db.Exec(context.Background(), "DELETE FROM produtos WHERE id = $1)", id)
+    _, err := repo.db.Exec(context.Background(), "DELETE FROM produtos WHERE id = $1", id)
     if err != nil {
         fmt.Println("Erro ao deletar produto da base de dados", err)
     }
     return err
 }
-
 
