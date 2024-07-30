@@ -1,14 +1,17 @@
 version: "3.9"
 services:
   go-app:
-    image: golang:alpine
+    # image: golang:alpine
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: go-app
     ports: 
       - 3333:3333
     volumes:
       - ./:/usr/src/app
-    working_dir: /usr/src/app
-    command: go run cmd/src/main.go
+    # working_dir: /usr/src/app
+    # command: go run cmd/src/main.go
     depends_on: 
       - postgres-db
     networks:

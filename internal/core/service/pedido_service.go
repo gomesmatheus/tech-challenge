@@ -6,22 +6,22 @@ import (
 )
 
 type pedidoService struct {
-   repository ports.PedidoRepository 
+	repository ports.PedidoRepository
 }
 
-func NewPedidoService(pedidoRepository ports.PedidoRepository) *pedidoService{
-    return &pedidoService{
-        repository: pedidoRepository,
-    }
+func NewPedidoService(pedidoRepository ports.PedidoRepository) *pedidoService {
+	return &pedidoService{
+		repository: pedidoRepository,
+	}
 }
 
 func (service *pedidoService) CriarPedido(p domain.Pedido) (domain.Pedido, error) {
-    return service.repository.CriarPedido(p)
+	return service.repository.CriarPedido(p)
 }
 func (service *pedidoService) RecuperarPedidos() ([]domain.Pedido, error) {
-    return service.RecuperarPedidos()
+	return service.repository.RecuperarPedidos()
 }
 
-func (service *pedidoService) AtualizarStatus(id int, status string) (error) {
-    return service.AtualizarStatus(id, status)
+func (service *pedidoService) AtualizarStatus(id int, status string) error {
+	return service.repository.AtualizarStatus(id, status)
 }

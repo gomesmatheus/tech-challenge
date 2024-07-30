@@ -7,8 +7,8 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-const(
-    createTables = `
+const (
+	createTables = `
     CREATE TABLE IF NOT EXISTS clientes (
         cpf BIGINT PRIMARY KEY,
         nome VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ const(
         descricao VARCHAR(255) NOT NULL UNIQUE
     );
 
-    INSERT INTO categoria_produtos (descricao) VALUES ('Lanche'), ('Acompanhamento'), ('Bebida'), ('Sobremesa');
+    INSERT INTO categoria_produtos (descricao) VALUES ('Lanche'), ('Acompanhamento'), ('Bebida'), ('Sobremesa') ON CONFLICT (descricao) DO NOTHING;
     SELECT * FROM categoria_produtos;
 
     CREATE TABLE IF NOT EXISTS produtos (
@@ -40,6 +40,7 @@ const(
         status VARCHAR(255),
         data TIMESTAMP,
         metodo_pagamento VARCHAR(255),
+        pagamento_aprovado BOOLEAN DEFAULT FALSE,
 
         CONSTRAINT fk_cpf FOREIGN KEY(cliente_cpf) REFERENCES clientes(cpf)
     );
@@ -58,29 +59,28 @@ const(
 )
 
 type postgresDb struct {
-    db *pgx.Conn
+	db *pgx.Conn
 }
 
 func NewPostgresDb(url string) (*postgresDb, error) {
-    config, err := pgx.ParseConfig(url)
-    if err != nil {
-        fmt.Println("Error parsing config", err)
-        return nil, err
-    }
+	config, err := pgx.ParseConfig(url)
+	if err != nil {
+		fmt.Println("Error parsing config", err)
+		return nil, err
+	}
 
-    db, err := pgx.ConnectConfig(context.Background(), config)
-    if err != nil {
-        fmt.Println("Error creating database connection", err)
-        return nil, err
-    }
-    // setup create table
-    if _, err := db.Exec(context.Background(), createTables); err != nil {
-        fmt.Println("Error creating table Persons", err)
-        return nil, err
-    }
+	db, err := pgx.ConnectConfig(context.Background(), config)
+	if err != nil {
+		fmt.Println("Error creating database connection", err)
+		return nil, err
+	}
+	// setup create table
+	if _, err := db.Exec(context.Background(), createTables); err != nil {
+		fmt.Println("Error creating table Persons", err)
+		return nil, err
+	}
 
-    return &postgresDb{
-        db: db,
-    }, nil
+	return &postgresDb{
+		db: db,
+	}, nil
 }
-
