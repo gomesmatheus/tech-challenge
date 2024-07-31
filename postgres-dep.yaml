@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-dep
+spec:
+  selector:
+    matchLabels:
+      app: postgres-dep
+  template:
+    metadata:
+      labels:
+        app: postgres-dep
+    spec:
+      containers:
+      - name: postgres-dep
+        image: postgres:alpine3.19
+        env:
+        - name: POSTGRES_HOST
+          value: "postgres-db"
+        - name: POSTGRES_PASSWORD
+          value: "123"
+        - name: POSTGRES_USER
+          value: "postgres"
+        - name: POSTGRES_DB
+          value: "postgres"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgres-storage
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-storage
+        persistentVolumeClaim:
+          claimName: pvc-postgres
