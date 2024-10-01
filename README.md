@@ -4,8 +4,7 @@
 - `terraform apply`
 
 ## Vincular kubectl com aws
-- ```aws eks --region $(terraform output -raw region) update-kubeconfig \
-    --name $(terraform output -raw cluster_name)```
+- `aws eks --region $(terraform output -raw region) update-kubeconfig \ --name $(terraform output -raw cluster_name)`
 
 
 ## Executando via k8s
