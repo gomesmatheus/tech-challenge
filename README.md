@@ -2,12 +2,15 @@
 ### Criação da base
 #### PVS:
 - `kubectl apply -f postgres-pv.yaml`
-- `kubectl apply -f postgres-pvC.yaml`
+- `kubectl apply -f postgres-pvc.yaml`
+
 #### Pods:
 - `kubectl apply -f postgres-dep.yaml`
+- `kubectl apply -f redis-dep.yaml`
 
 #### Service:
 - `kubectl apply -f postgres-service.yaml`
+- `kubectl apply -f redis-service.yaml`
 
 ### Criação da APP
 - `kubectl apply -f pod-go-app.yaml`

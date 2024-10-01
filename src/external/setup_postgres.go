@@ -59,7 +59,7 @@ const (
     `
 )
 
-func NewPostgresDb(url string) (*gateways.DbConnection, error) {
+func NewPostgresDb(url string) (*pgx.Conn, error) {
 	config, err := pgx.ParseConfig(url)
 	if err != nil {
 		fmt.Println("Error parsing config", err)
@@ -77,7 +77,14 @@ func NewPostgresDb(url string) (*gateways.DbConnection, error) {
 		return nil, err
 	}
 
-	return &gateways.DbConnection{
-		Db: db,
+	return db, err
+}
+
+func NewDbs() (*gateways.DbConnection, error) {
+    pgDb, _ := NewPostgresDb("postgres://postgres:123@postgres-db:5432/postgres")
+
+    return &gateways.DbConnection{
+		Db: pgDb,
+        Redis: NewRedisDb(),
 	}, nil
 }

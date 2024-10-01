@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: go-app-container
-        image: matheusgomes1/tc-go-app:1.2
+        image: matheusgomes1/tc-go-app:1.6

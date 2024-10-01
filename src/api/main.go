@@ -4,13 +4,13 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gomesmatheus/tech-challenge/src/usecases"
-	"github.com/gomesmatheus/tech-challenge/src/controllers"
 	"github.com/gomesmatheus/tech-challenge/src/external"
+	"github.com/gomesmatheus/tech-challenge/src/controllers"
+	"github.com/gomesmatheus/tech-challenge/src/usecases"	
 )
 
 func main() {
-	dbConnection, err := external.NewPostgresDb("postgres://postgres:123@postgres-db:5432/postgres")
+	dbConnection, err := external.NewDbs()
 	if err != nil {
 		log.Fatalf("Error initializing database: %v", err)
 	}
