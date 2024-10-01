@@ -1,3 +1,13 @@
+## Criação do cluster na AWS
+- `terraform init`
+- `terraform plan`
+- `terraform apply`
+
+## Vincular kubectl com aws
+- ```aws eks --region $(terraform output -raw region) update-kubeconfig \
+    --name $(terraform output -raw cluster_name)```
+
+
 ## Executando via k8s
 ### Criação da base
 #### PVS:
@@ -16,6 +26,7 @@
 - `kubectl apply -f pod-go-app.yaml`
 - `kubectl apply -f svc-go-app.yaml`
 
+### Esse passo apenas deve ser executado caso necessário rodar os pods localmente (kubectl minikube)
 Tive um problema com o minikube + wsl2 com a rede, portanto para acessar os pods de fora do cluster, tive que usar o port forward do kubectl, da seguinte forma:
 - `kubectl port-forward go-app-6f7664cf8c-dlnfk 3333:3333` (Substituir **go-app-6f7664cf8c-dlnfk** por algum outro pod criado pelo deployment, checar com `kubectl get pods`)
 - `kubectl port-forward postgres-dep-565c965f89-qkx99 5432:5432` (O mesmo vale para o **postgres-dep-565c965f89-qkx99**)
